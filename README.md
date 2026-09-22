@@ -1,3 +1,17 @@
+```
+                                                   dP          
+                                                   88          
+88d888b. 88d888b.          88d888b. .d8888b. .d888b88 .d8888b. 
+88'  `88 88'  `88 88888888 88'  `88 88'  `88 88'  `88 88ooood8 
+88    88 88                88    88 88.  .88 88.  .88 88.  ... 
+dP    dP dP                dP    dP `88888P' `88888P8 `88888P' 
+
+--------------------------------------------------------------
+NAME         STATUS         ROLES       AGE           VERSION
+void-00      NotReady       worker      12812d        v7.2.7
+--------------------------------------------------------------
+                                                                    
+```
 
 # notready-node
 
@@ -21,7 +35,6 @@ Increment version by 1. Report success/failure per page ID.
 EOF
 ```
 
-
 ## Dependencies
 
 **Requires:**
@@ -30,9 +43,11 @@ EOF
 3. Local SLM already installed and set up in Ollama. 
     * The default model set is `gemma4:12b` but this can be modified in `.crushrc` and the script allows setting the local SLM.
 4. Crush installed alongside another LLM/AI coding interface (tested with `agy-cli`).
-
+    * Get Crush here: [Crush](https://github.com/charmbracelet/crush/tree/main)
+    * Go install: `go install github.com/charmbracelet/crush@latest` 
+    
 > [!NOTE] 
-> This has not been well tested, please create an issue if you encounter non-esoteric bugs. 
+> This has not been well tested, please create an issue if you encounter any non-esoteric bugs. 
 
 ## Installation
 
@@ -44,9 +59,16 @@ EOF
 
 > [!NOTE]  
 > *I have not tested this in any client beyond agy-cli.*
+
+## MCP Servers
+Comes with the following MCP Servers tested:
+
+* [mcp-atlassian](https://github.com/sooperset/mcp-atlassian)
+* [PagerDuty](https://support.pagerduty.com/main/docs/pagerduty-mcp-server)
     
 #### Adding MCP Servers
-Append additional MCP servers to .crushrc and update `liminal-loop/SKILL.md` with information on the tools it provides. 
+Append additional MCP servers to .crushrc and update `liminal-loop/SKILL.md` with information on the tools it provides.
+ 
 ## Environment Variables
 
 ### Filtering MCP Tools
