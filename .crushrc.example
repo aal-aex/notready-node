@@ -1,0 +1,92 @@
+# ××××××××××××××××××××××××××××××××××××××××××××××××
+#             . ✦ ★ ~/.crushrc ₊ ✦ ˚✧
+# ××××××××××××××××××××××××××××××××××××××××××××××××
+
+# Set WRK_USER & COMPANY either below or in .bashrc/.zshrc
+# WRK_USER="your.username"
+# COMPANY="your_company"
+
+# Dynamically locate uvx regardless of OS
+UVX_BIN="$(command -v uvx || echo 'uvx')"
+
+# ×××××××××××××××××× [ models ] ××××××××××××××××××
+# Swap "ollama/gemma4:12b", name, & context window depending on SLM in use.
+
+# Set up ollama prior to using.
+provider add ollama \
+  --type ollama \
+  --base-url "http://localhost:11434/v1"
+
+model add ollama/gemma4:12b --name "Gemma4" \
+   --context-window 32000
+
+# ×××××××××××××××××× [ permissions ] ××××××××××××××××××
+
+# Automatically allow tool calls so Crush can execute
+# headlessly without waiting for user input
+permissions allow view edit bash mcp
+
+# ×××××××××××××××××× [ path/bin ] ××××××××××××××××××
+
+# Include any pathing needed & not included below:
+_PATHS=(
+    # "$HOME/.local/pipx/venvs"
+    # "$HOME/.cargo/bin"
+    # "$HOME/.local/share/go/bin"
+    # "$HOME/.var/app/"
+    # "$HOME/.npm-global/bin"
+    "$HOME/.local/bin"
+)
+for p in "${_PATHS[@]}"; do
+   [[ ":$PATH:" != *":$p:"* ]] && export PATH="$PATH:$p"
+done
+unset _PATHS
+
+# ×××××××××××××××××× [ env ] ××××××××××××××××××
+
+# Only apply Homebrew gnubin pathing if running on macOS
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  if [[ -d "/opt/homebrew" ]]; then
+    _BREW_PREFIX="/opt/homebrew"
+  else
+    _BREW_PREFIX="/usr/local"
+  fi
+  # Note: macOS users must install these via `brew install coreutils findutils gnu-sed gnu-tar grep gawk`
+  export PATH="$_BREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+  export PATH="$_BREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
+  export PATH="$_BREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
+  export PATH="$_BREW_PREFIX/opt/gnu-tar/libexec/gnubin:$PATH"
+  export PATH="$_BREW_PREFIX/opt/grep/libexec/gnubin:$PATH"
+  export PATH="$_BREW_PREFIX/opt/gawk/libexec/gnubin:$PATH"
+fi
+
+# ×××××××××××××××××× [ mcp ] ××××××××××××××××××
+
+# Ensure JIRA_API_TOKEN & PAGERDUTY_API_TOKEN are set prior to using.
+
+# atlassian
+mcp add mcp-atlassian \
+  --command "$UVX_BIN" \
+  --args mcp-atlassian \
+  --timeout 30 \
+  --env JIRA_URL "https://${COMPANY}.atlassian.net" \
+  --env JIRA_USERNAME "${WRK_USER}@${COMPANY}.com" \
+  --env JIRA_API_TOKEN "$JIRA_API_TOKEN" \
+  --env CONFLUENCE_URL "https://${COMPANY}.atlassian.net/wiki" \
+  --env CONFLUENCE_USERNAME "${WRK_USER}@${COMPANY}.com" \
+  --env CONFLUENCE_API_TOKEN "$JIRA_API_TOKEN"
+  
+  # Add a backslash to the line above and uncomment the line below to filter
+  # Atlassian MCP tools available to your local SLM:
+  # --env ENABLED_TOOLS "$SLM_ATL_TOOLS"
+
+# pagerduty
+mcp add pagerduty \
+  --type http \
+  --url "https://mcp.pagerduty.com/mcp" \
+  --header Authorization "Token token=$PAGERDUTY_API_KEY"
+
+# ---------------------------------------------`✄
+## Add your own MCP below (see crush docs)
+# https://charmbracelet-crush.mintlify.app/
+# https://github.com/charmbracelet/crush/blob/main/README.md
