@@ -2,6 +2,7 @@
 .crushrc
 digest.txt
 *.log
+.env
 
 # OS & Editor artifacts
 .DS_Store

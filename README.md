@@ -15,7 +15,7 @@ void-00      NotReady       worker      12812d        v7.2.7
 
 # notready-node
 
-Offload multi-step tool calls to a local SLM running in Crush with a skill, config file, and a single shell script.
+Offload multi-step tool calls to a local SLM running in Crush with a skill, instructions, crushrc, and a single shell script.
 
 
 ## Usage/Examples
@@ -44,7 +44,7 @@ EOF
     * The default model set is `gemma4:12b` but this can be modified in `.crushrc` and the script allows setting the local SLM.
 4. Crush installed alongside another LLM/AI coding interface (tested with `agy-cli`).
     * Get Crush here: [Crush](https://github.com/charmbracelet/crush/tree/main)
-    * Go install: `go install github.com/charmbracelet/crush@latest` 
+    * Go install: `go install github.com/charmbracelet/crush@latest`
     
 > [!NOTE] 
 > This has not been well tested, please create an issue if you encounter any non-esoteric bugs. 
@@ -54,7 +54,8 @@ EOF
 1. Clone the repo. 
 2. Copy `.crushrc.example` to `~/.crushrc` (or `$PWD/.crushrc`) and configure your environment variables. 
 3. Ensure `notready-node.sh` is placed somewhere in your `$PATH` and that your primary LLM has access to it.
-4. Setting up the included `SKILL.md` (`liminal-loop`). Please see client-specific instructions for SKILLS. (In `agy-cli`, the directory `liminal-loop` is placed at `~/.gemini/config/skills/liminal-loop` containing `SKILL.md`). 
+4. Set up the included `SKILL.md` (`dispatch-daemon`). Please see client-specific instructions for SKILLS. (In `agy-cli`, the directory `dispatch-daemon` is placed at `~/.gemini/config/skills/dispatch-daemon` containing `SKILL.md`).
+5. Place DAEMON_SPEC.md in the target directory (~/ or your project).
 
 
 > [!NOTE]  
@@ -67,7 +68,7 @@ Comes with the following MCP Servers tested:
 * [PagerDuty](https://support.pagerduty.com/main/docs/pagerduty-mcp-server)
     
 #### Adding MCP Servers
-Append additional MCP servers to .crushrc and update `liminal-loop/SKILL.md` with information on the tools it provides.
+Append additional MCP servers to .crushrc and update `dispatch-daemon/SKILL.md` with information on the tools it provides.
  
 ## Environment Variables
 
@@ -81,7 +82,7 @@ Set this environment variable to list tool calls for a specific MCP (you will ne
 ### MCP API Keys
 This is set-up with 2 MCP's enabled in .crushrc: mcp-atlassian and PagerDuty's mcp (see their repo for recent changes). This is entirely optional. Comment these out in SKILL.md and .crushrc if not in use.
 
-`JIRA_API_KEY` - Your Jira/Atlassian API key.
+`JIRA_API_TOKEN` - Your Jira/Atlassian API key.
 
 `PAGERDUTY_API_KEY` - Your PagerDuty API key.
 

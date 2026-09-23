@@ -3,11 +3,9 @@
 # ××××××××××××××××××××××××××××××××××××××××××××××××
 
 # Set WRK_USER & COMPANY either below or in .bashrc/.zshrc
+# You may need to things per directory.
 # WRK_USER="your.username"
 # COMPANY="your_company"
-
-# Dynamically locate uvx regardless of OS
-UVX_BIN="$(command -v uvx || echo 'uvx')"
 
 # ×××××××××××××××××× [ models ] ××××××××××××××××××
 # Swap "ollama/gemma4:12b", name, & context window depending on SLM in use.
@@ -41,6 +39,9 @@ for p in "${_PATHS[@]}"; do
    [[ ":$PATH:" != *":$p:"* ]] && export PATH="$PATH:$p"
 done
 unset _PATHS
+
+# Dynamically locate uvx regardless of OS
+UVX_BIN="$(command -v uvx || echo 'uvx')"
 
 # ×××××××××××××××××× [ env ] ××××××××××××××××××
 
